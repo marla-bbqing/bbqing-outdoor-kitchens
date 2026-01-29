@@ -28,16 +28,37 @@
     <meta name="twitter:description" content="Build your dream outdoor kitchen with Canada's BBQ experts since 1988. Free custom 3D design, 50+ premium brands, 0% financing available.">
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1200&q=80">
 
-    <!-- Google Ads / Analytics - Replace with your IDs -->
-    <!-- Google tag (gtag.js) - Add your Google Ads ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+    <!-- Google Ads / GA4 - Replace with your IDs -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'AW-XXXXXXXXXX'); // Replace with your Google Ads ID
-        // gtag('config', 'GA-XXXXXXXXXX'); // Uncomment and add Google Analytics ID
+
+        // GA4 Configuration - Replace G-XXXXXXXXXX with your GA4 Measurement ID
+        gtag('config', 'G-XXXXXXXXXX', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+
+        // Google Ads Configuration - Replace AW-XXXXXXXXXX with your Google Ads ID
+        gtag('config', 'AW-XXXXXXXXXX');
     </script>
+
+    <!-- Meta Pixel - Replace with your Pixel ID -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'XXXXXXXXXXXXXXXXX'); // Replace with your Meta Pixel ID
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXXXX&ev=PageView&noscript=1"/></noscript>
 
     <!-- Structured Data - LocalBusiness -->
     <script type="application/ld+json">
@@ -1655,16 +1676,241 @@
     </div>
 
     <script>
+        // ========================================
+        // ENHANCED TRACKING & ANALYTICS
+        // ========================================
+
+        // Track page load time
+        const pageLoadTime = Date.now();
+        let maxScrollDepth = 0;
+        let scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+
         // Header scroll effect
         window.addEventListener('scroll', () => {
             document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // FAQ with accessibility
+        // ========================================
+        // SCROLL DEPTH TRACKING
+        // ========================================
+        function getScrollDepth() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            return Math.round((scrollTop / docHeight) * 100);
+        }
+
+        window.addEventListener('scroll', () => {
+            const depth = getScrollDepth();
+            if (depth > maxScrollDepth) maxScrollDepth = depth;
+
+            // Track scroll milestones (25%, 50%, 75%, 100%)
+            [25, 50, 75, 100].forEach(milestone => {
+                if (depth >= milestone && !scrollMilestones[milestone]) {
+                    scrollMilestones[milestone] = true;
+
+                    // GA4 scroll tracking
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'scroll_depth', {
+                            'percent_scrolled': milestone,
+                            'page_location': window.location.href
+                        });
+                    }
+
+                    // Meta Pixel scroll tracking
+                    if (typeof fbq === 'function') {
+                        fbq('trackCustom', 'ScrollDepth', { percent: milestone });
+                    }
+                }
+            });
+        });
+
+        // ========================================
+        // TIME ON PAGE TRACKING
+        // ========================================
+        let timeEngaged = 0;
+        let isActive = true;
+        let timeMilestones = { 30: false, 60: false, 120: false, 300: false };
+
+        // Track active time (pauses when tab is hidden)
+        document.addEventListener('visibilitychange', () => {
+            isActive = !document.hidden;
+        });
+
+        setInterval(() => {
+            if (isActive) {
+                timeEngaged++;
+
+                // Track time milestones (30s, 60s, 2min, 5min)
+                Object.keys(timeMilestones).forEach(seconds => {
+                    if (timeEngaged >= parseInt(seconds) && !timeMilestones[seconds]) {
+                        timeMilestones[seconds] = true;
+
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'time_on_page', {
+                                'seconds_engaged': parseInt(seconds),
+                                'page_location': window.location.href
+                            });
+                        }
+
+                        if (typeof fbq === 'function') {
+                            fbq('trackCustom', 'TimeOnPage', { seconds: parseInt(seconds) });
+                        }
+                    }
+                });
+            }
+        }, 1000);
+
+        // ========================================
+        // SECTION VISIBILITY TRACKING
+        // ========================================
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionName = entry.target.dataset.section || entry.target.className.split(' ')[0];
+
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'section_view', {
+                            'section_name': sectionName,
+                            'page_location': window.location.href
+                        });
+                    }
+
+                    if (typeof fbq === 'function') {
+                        fbq('trackCustom', 'SectionView', { section: sectionName });
+                    }
+
+                    // Stop observing after first view
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe key sections
+        document.querySelectorAll('.brands-section, .features-section, .process-section, .testimonials-section, .faq-section, .cta-section').forEach(section => {
+            section.dataset.section = section.className.split('-section')[0];
+            sectionObserver.observe(section);
+        });
+
+        // ========================================
+        // CTA BUTTON CLICK TRACKING
+        // ========================================
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const btnText = btn.textContent.trim();
+                const btnLocation = btn.closest('section')?.className.split(' ')[0] || 'header';
+
+                if (typeof gtag === 'function') {
+                    gtag('event', 'cta_click', {
+                        'button_text': btnText,
+                        'button_location': btnLocation,
+                        'page_location': window.location.href
+                    });
+                }
+
+                if (typeof fbq === 'function') {
+                    fbq('trackCustom', 'CTAClick', {
+                        button_text: btnText,
+                        location: btnLocation
+                    });
+                }
+            });
+        });
+
+        // ========================================
+        // PHONE & EMAIL CLICK TRACKING
+        // ========================================
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'phone_click', {
+                        'phone_number': link.getAttribute('href').replace('tel:', ''),
+                        'click_location': link.closest('section')?.className.split(' ')[0] || 'header'
+                    });
+                }
+
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Contact', { method: 'phone' });
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'email_click', {
+                        'email': link.getAttribute('href').replace('mailto:', ''),
+                        'click_location': link.closest('section')?.className.split(' ')[0] || 'footer'
+                    });
+                }
+
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Contact', { method: 'email' });
+                }
+            });
+        });
+
+        // ========================================
+        // FORM INTERACTION TRACKING
+        // ========================================
+        const formFields = document.querySelectorAll('#lead-form input, #lead-form select');
+        let formStarted = false;
+        let fieldsInteracted = new Set();
+
+        formFields.forEach(field => {
+            // Track form start (first field focus)
+            field.addEventListener('focus', () => {
+                if (!formStarted) {
+                    formStarted = true;
+
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'form_start', {
+                            'form_name': 'lead_form',
+                            'time_to_start': Math.round((Date.now() - pageLoadTime) / 1000)
+                        });
+                    }
+
+                    if (typeof fbq === 'function') {
+                        fbq('trackCustom', 'FormStart', { form: 'lead_form' });
+                    }
+                }
+            });
+
+            // Track field interactions
+            field.addEventListener('blur', () => {
+                if (field.value && !fieldsInteracted.has(field.name)) {
+                    fieldsInteracted.add(field.name);
+
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'form_field_complete', {
+                            'field_name': field.name,
+                            'fields_completed': fieldsInteracted.size
+                        });
+                    }
+                }
+            });
+        });
+
+        // ========================================
+        // FAQ INTERACTION TRACKING
+        // ========================================
         document.querySelectorAll('.faq-question').forEach(q => {
             q.addEventListener('click', () => {
                 const item = q.parentElement;
                 const active = item.classList.contains('active');
+                const questionText = q.textContent.trim().replace(/\s+/g, ' ').substring(0, 50);
+
+                // Track FAQ interaction
+                if (!active) {
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'faq_expand', {
+                            'question': questionText
+                        });
+                    }
+
+                    if (typeof fbq === 'function') {
+                        fbq('trackCustom', 'FAQExpand', { question: questionText });
+                    }
+                }
 
                 // Close all and reset aria-expanded
                 document.querySelectorAll('.faq-item').forEach(i => {
@@ -1689,29 +1935,79 @@
             });
         });
 
-        // Form with Google Ads Conversion Tracking
+        // ========================================
+        // FORM SUBMISSION WITH FULL TRACKING
+        // ========================================
         document.getElementById('lead-form').addEventListener('submit', e => {
             e.preventDefault();
 
-            // Google Ads Conversion Tracking - Replace with your conversion ID and label
+            // Get form data for tracking (non-PII only)
+            const formData = new FormData(e.target);
+            const kitchenType = formData.get('kitchen_type') || 'not_specified';
+            const budgetRange = formData.get('budget') || 'not_specified';
+
+            // GA4 Lead Event
             if (typeof gtag === 'function') {
+                // Google Ads Conversion - Replace with your conversion ID/label
                 gtag('event', 'conversion', {
-                    'send_to': 'AW-XXXXXXXXXX/XXXXXXXXXXXXXXXXXXXX', // Replace with your conversion ID/label
-                    'event_callback': function() {
-                        console.log('Conversion tracked');
-                    }
+                    'send_to': 'AW-XXXXXXXXXX/XXXXXXXXXXXXXXXXXXXX'
                 });
 
-                // Also track as a custom event for analytics
+                // GA4 generate_lead event (recommended event)
+                gtag('event', 'generate_lead', {
+                    'currency': 'CAD',
+                    'value': kitchenType === 'commercial' ? 100 : 50,
+                    'lead_type': kitchenType,
+                    'budget_range': budgetRange,
+                    'time_to_submit': Math.round((Date.now() - pageLoadTime) / 1000),
+                    'scroll_depth_at_submit': maxScrollDepth,
+                    'fields_completed': fieldsInteracted.size
+                });
+
+                // Custom form_submission event for detailed analytics
                 gtag('event', 'form_submission', {
                     'event_category': 'Lead Generation',
                     'event_label': 'Outdoor Kitchen Design Request',
-                    'value': 1
+                    'kitchen_type': kitchenType,
+                    'budget_range': budgetRange,
+                    'time_engaged': timeEngaged,
+                    'scroll_depth': maxScrollDepth
+                });
+            }
+
+            // Meta Pixel Lead Event
+            if (typeof fbq === 'function') {
+                fbq('track', 'Lead', {
+                    content_name: 'Outdoor Kitchen Design Request',
+                    content_category: kitchenType,
+                    value: kitchenType === 'commercial' ? 100 : 50,
+                    currency: 'CAD'
+                });
+
+                fbq('trackCustom', 'FormComplete', {
+                    kitchen_type: kitchenType,
+                    budget_range: budgetRange,
+                    time_to_submit: Math.round((Date.now() - pageLoadTime) / 1000)
                 });
             }
 
             alert('Thank you! Our outdoor kitchen expert will contact you within 24 hours.');
             e.target.reset();
+        });
+
+        // ========================================
+        // PAGE EXIT TRACKING
+        // ========================================
+        window.addEventListener('beforeunload', () => {
+            // Send final engagement data
+            if (typeof gtag === 'function') {
+                gtag('event', 'page_exit', {
+                    'time_on_page': timeEngaged,
+                    'max_scroll_depth': maxScrollDepth,
+                    'form_started': formStarted,
+                    'form_fields_completed': fieldsInteracted.size
+                });
+            }
         });
     </script>
 </body>
