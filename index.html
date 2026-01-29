@@ -1096,24 +1096,6 @@
         .mobile-cta .btn { width: 100%; }
 
         /* Accessibility */
-        .skip-link {
-            position: absolute;
-            top: -100px;
-            left: 0;
-            background: var(--primary);
-            color: var(--white);
-            padding: 8px 16px;
-            z-index: 10000;
-            text-decoration: none;
-            font-weight: 500;
-            opacity: 0;
-        }
-
-        .skip-link:focus {
-            top: 0;
-            opacity: 1;
-        }
-
         *:focus-visible {
             outline: 3px solid var(--primary);
             outline-offset: 2px;
@@ -1185,9 +1167,6 @@
     </style>
 </head>
 <body>
-    <!-- Skip Navigation Link for Accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
