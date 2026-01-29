@@ -706,62 +706,6 @@
 
         .brands-more strong { color: var(--gray-900); }
 
-        /* Gallery Grid */
-        .gallery-section {
-            background: var(--gray-50);
-            overflow: hidden;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(2, 280px);
-            gap: 16px;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .gallery-item:nth-child(1) {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-            display: flex;
-            align-items: flex-end;
-            padding: 24px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-
-        .gallery-overlay span {
-            color: var(--white);
-            font-weight: 500;
-            font-size: 14px;
-        }
-
         /* Features */
         .features-section { background: var(--white); }
 
@@ -811,100 +755,6 @@
             font-size: 15px;
             color: var(--gray-600);
             line-height: 1.7;
-        }
-
-        /* Products */
-        .products-section {
-            background: var(--gray-900);
-            color: var(--white);
-        }
-
-        .products-section .section-label { color: var(--primary-light); }
-        .products-section .section-header h2 { color: var(--white); }
-        .products-section .section-header p { color: var(--gray-400); }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
-
-        .product-card {
-            background: var(--gray-800);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
-        }
-
-        .product-image {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        .product-content { padding: 24px; }
-
-        .product-content h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .product-content p {
-            font-size: 14px;
-            color: var(--gray-400);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .product-brands {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .product-brands span {
-            background: rgba(24, 131, 223, 0.15);
-            color: var(--primary-light);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .product-link {
-            color: var(--primary-light);
-            font-weight: 500;
-            font-size: 14px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .product-link svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.2s;
-        }
-
-        .product-link:hover svg {
-            transform: translateX(4px);
         }
 
         /* Process */
@@ -1310,10 +1160,7 @@
             .hero h1 { font-size: 48px; }
 
             .brands-grid { grid-template-columns: repeat(3, 1fr); }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 200px); }
-            .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
             .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .products-grid { grid-template-columns: repeat(2, 1fr); }
             .process-grid { grid-template-columns: repeat(2, 1fr); gap: 48px; }
             .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
             .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 48px; }
@@ -1330,11 +1177,7 @@
             .section-header { margin-bottom: 48px; }
 
             .brands-grid { grid-template-columns: repeat(2, 1fr); }
-            .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-            .gallery-item:nth-child(1) { grid-column: span 1; }
-            .gallery-item { height: 240px; }
             .features-grid,
-            .products-grid,
             .process-grid,
             .testimonials-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1553,40 +1396,6 @@
         </div>
     </section>
 
-    <!-- Gallery -->
-    <section class="gallery-section section">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-label">Inspiration</div>
-                <h2>Outdoor Kitchen Gallery</h2>
-                <p>See what's possible with expert design and premium products.</p>
-                <a href="#form" class="btn btn-primary btn-lg" style="margin-top: 24px;">Get Your Free Design</a>
-            </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&q=80" alt="Luxury outdoor kitchen with Napoleon grill">
-                    <div class="gallery-overlay"><span>Luxury Kitchen with Napoleon Built-In</span></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1523413363574-c30aa1c2a516?w=600&q=80" alt="Modern outdoor cooking space">
-                    <div class="gallery-overlay"><span>Modern Minimalist Design</span></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Premium outdoor grill setup">
-                    <div class="gallery-overlay"><span>Premium Lynx Setup</span></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80" alt="Backyard entertaining space">
-                    <div class="gallery-overlay"><span>Complete Entertainment Space</span></div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1598449426314-8b02525e8733?w=600&q=80" alt="Outdoor pizza oven">
-                    <div class="gallery-overlay"><span>Pizza Oven Integration</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Features -->
     <section class="features-section section">
         <div class="container">
@@ -1641,83 +1450,6 @@
             </div>
             <div class="section-cta" style="text-align: center; margin-top: 48px;">
                 <a href="#form" class="btn btn-primary btn-lg">Start Your Free Design</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products -->
-    <section class="products-section section">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-label">Product Categories</div>
-                <h2>Everything for Your Build</h2>
-                <p>Complete solutions from grills to cabinetry, refrigeration to accessories.</p>
-            </div>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80" alt="Built-in grills">
-                    </div>
-                    <div class="product-content">
-                        <h4>Built-In Grills</h4>
-                        <p>Gas, charcoal, pellet & kamado options for permanent installation.</p>
-                        <div class="product-brands">
-                            <span>Napoleon</span>
-                            <span>Lynx</span>
-                            <span>DCS</span>
-                            <span>Weber</span>
-                        </div>
-                        <a href="#form" class="product-link">Get Recommendations <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&q=80" alt="Outdoor cabinetry">
-                    </div>
-                    <div class="product-content">
-                        <h4>Outdoor Cabinetry</h4>
-                        <p>Weather-resistant cabinets, doors, drawers & storage solutions.</p>
-                        <div class="product-brands">
-                            <span>Urban Bonfire</span>
-                            <span>Stoll</span>
-                            <span>Napoleon</span>
-                        </div>
-                        <a href="#form" class="product-link">Get Recommendations <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=600&q=80" alt="Outdoor refrigeration">
-                    </div>
-                    <div class="product-content">
-                        <h4>Refrigeration</h4>
-                        <p>Outdoor-rated fridges, ice makers, kegerators & beverage centers.</p>
-                        <div class="product-brands">
-                            <span>Lynx</span>
-                            <span>DCS</span>
-                            <span>Napoleon</span>
-                        </div>
-                        <a href="#form" class="product-link">Get Recommendations <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1598449426314-8b02525e8733?w=600&q=80" alt="Pizza ovens">
-                    </div>
-                    <div class="product-content">
-                        <h4>Pizza Ovens</h4>
-                        <p>Wood-fired & gas pizza ovens for authentic Italian flavor.</p>
-                        <div class="product-brands">
-                            <span>Gozney</span>
-                            <span>Alfa Forni</span>
-                            <span>Ooni</span>
-                        </div>
-                        <a href="#form" class="product-link">Get Recommendations <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
-                    </div>
-                </div>
-            </div>
-            <div class="section-cta" style="text-align: center; margin-top: 48px;">
-                <a href="#form" class="btn btn-accent btn-lg">Get Product Recommendations</a>
             </div>
         </div>
     </section>
